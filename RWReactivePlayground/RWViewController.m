@@ -29,9 +29,15 @@
   [super viewDidLoad];
   self.signInService = [RWDummySignInService new];
   RACSignal *textSignal = [self.usernameTextField rac_textSignal];
-  [textSignal subscribeNext:^(id x) {
-      NSLog(@"%@",x);
-  }];
+    [[textSignal
+            map:^id (id x) {
+                NSString *text = (NSString *)x;
+                return @(text.length > 3);
+            }]
+            subscribeNext:^(id x) {
+                BOOL textIsLongerThanThreeChar = [x boolValue];
+                self.passwordTextField.backgroundColor = textIsLongerThanThreeChar ? [UIColor yellowColor]: [UIColor clearColor];
+            }];
 
 }
 
@@ -59,8 +65,6 @@
                               }
                             }];
 }
-
-
 
 
 @end
