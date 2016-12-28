@@ -32,7 +32,7 @@
     [[textSignal
             map:^id (id x) {
                 NSString *text = (NSString *)x;
-                return @(text.length > 3);
+                return @([self isValidUsername:text]);
             }]
             subscribeNext:^(id x) {
                 BOOL textIsLongerThanThreeChar = [x boolValue];
